@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>딥러닝 응용 애플리케이션</title>
+    {% load static %}
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const csrfToken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'frontend/main.js' %}"></script>
+  </body>
+</html>
