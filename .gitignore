@@ -120,3 +120,4 @@ yarn.lock
 temp/
 
 tmp/
+database.pkl
