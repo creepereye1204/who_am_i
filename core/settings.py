@@ -11,12 +11,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+import pickle
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+try:
+    with open("./database.pkl", "rb") as pickle_file:
+        DATABASES = pickle.load(pickle_file)
+        DEBUG = False
+except Exception:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+    DEBUG = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -24,7 +37,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-g%b@i(sgp-8kcu38r1v^yu6z+=si8*s_p2w@1!x5t%j$&m^0qd"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+
 
 ALLOWED_HOSTS = ["cjw-portfolio.p-e.kr"]
 
@@ -76,17 +89,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "smalllab",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
 
 
 # Password validation
