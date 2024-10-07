@@ -1,9 +1,16 @@
 import { render } from "react-dom";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/home";
 
 const Main = () => {
-  return <div>안녕하세요!</div>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
+  );
 };
 
 const appDiv = document.getElementById("app");

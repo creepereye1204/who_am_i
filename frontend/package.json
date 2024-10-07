@@ -8,6 +8,9 @@
     "build": "webpack --mode production"
   },
   "keywords": [],
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -30,6 +33,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/material": "^6.1.1",
     "react-router-dom": "^6.26.2",
+    "react-scripts": "^5.0.1",
     "styled-components": "^6.1.13"
   }
 }
