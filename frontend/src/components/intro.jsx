@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Navbar from "../components/navbar";
 import styled from "styled-components";
 import image from "../images/home.jpg";
 
@@ -37,18 +36,11 @@ const Style = styled.div`
   }
 `;
 
-const Home = () => {
+const Intro = () => {
   const sectionRef = useRef(null);
-
-  const scrollToSection = () => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <Style>
-      <Navbar scrollToSection={scrollToSection} />
       <div ref={sectionRef} className="Masthead_content">
         <h1 className="Masthead_title">- 최지웅 -</h1>
         <h1 className="Masthead_title">백엔드 개발자 포트폴리오</h1>
@@ -57,4 +49,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Intro;
