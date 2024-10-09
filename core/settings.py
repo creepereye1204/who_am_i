@@ -39,7 +39,7 @@ SECRET_KEY = "django-insecure-g%b@i(sgp-8kcu38r1v^yu6z+=si8*s_p2w@1!x5t%j$&m^0qd
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-ALLOWED_HOSTS = ["cjw-portfolio.p-e.kr"]
+ALLOWED_HOSTS = ["cjw-portfolio.p-e.kr", "127.0.0.1"]
 
 
 # Application definition
