@@ -36,7 +36,19 @@ const Style = styled.div`
   }
   #bar {
     width: 3.5rem;
-    border-top: 2rem solid orange;
+    border: 0.15rem solid orange;
+  }
+  .Masthead_describe {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.3rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  #show_more {
+    padding: 1rem;
+    border-radius: 2rem;
+    background-color: #f4623a;
+    border: none;
   }
 `;
 
@@ -48,8 +60,17 @@ const Intro = () => {
       <div ref={sectionRef} className="Masthead_content">
         <h1 className="Masthead_title">- 최지웅 -</h1>
         <h1 className="Masthead_title">백엔드 개발자 포트폴리오</h1>
+        <hr id="bar" />
+        <h2 className="Masthead_describe">
+          안녕하세요.
+          <br />
+          Django 백엔드 개발자 <br />
+          최지웅입니다
+        </h2>
+        <button id="show_more" className="Masthead_describe">
+          더 알아보기 ↓
+        </button>
       </div>
-      <hr id="bar" />
     </Style>
   );
 };
