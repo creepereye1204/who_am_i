@@ -34,6 +34,10 @@ const Style = styled.div`
       height: 450px;
     }
   }
+  #bar {
+    width: 3.5rem;
+    border-top: 2rem solid orange;
+  }
 `;
 
 const Intro = () => {
@@ -45,6 +49,7 @@ const Intro = () => {
         <h1 className="Masthead_title">- 최지웅 -</h1>
         <h1 className="Masthead_title">백엔드 개발자 포트폴리오</h1>
       </div>
+      <hr id="bar" />
     </Style>
   );
 };

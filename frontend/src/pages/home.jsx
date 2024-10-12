@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Navbar from "../components/navbar";
 import styled from "styled-components";
-import image from "../images/home.jpg";
+import header from "../images/home.jpg";
 
 const Style = styled.div`
   .Masthead_content {
@@ -13,7 +13,7 @@ const Style = styled.div`
     justify-content: center;
     align-items: center;
 
-    background-image: url(${image});
+    background-image: url(${header});
     background-size: cover;
     background-position: center;
   }
