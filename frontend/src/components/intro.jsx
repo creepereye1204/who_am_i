@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import image from "../images/home.jpg";
+import desk from "../images/desk_bg.jpg";
+import mobile from "../images/mobile_bg.jpg";
 
 const Style = styled.div`
   .Masthead_content {
@@ -12,7 +13,7 @@ const Style = styled.div`
     justify-content: center;
     align-items: center;
 
-    background-image: url(${image});
+    background-image: url(${desk});
     background-size: cover;
     background-position: center;
   }
@@ -31,7 +32,7 @@ const Style = styled.div`
 
   @media (max-width: 992px) {
     .Masthead_content {
-      height: 450px;
+      background-image: url(${mobile});
     }
   }
   #bar {
