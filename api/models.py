@@ -3,8 +3,8 @@ from django.utils import timezone
 
 
 class SkillSet(models.Model):
-    skill_id = models.CharField(max_length=255, primary_key=True)
-    skill_name = models.CharField(max_length=255, null=True)
+    skill_name = models.CharField(max_length=15, primary_key=True)
+    badge_file = models.ImageField(upload_to="badge/", null=True, blank=True)
 
     def __str__(self):
         return self.skill_name
@@ -12,34 +12,35 @@ class SkillSet(models.Model):
 
 class ProjectInfo(models.Model):
     project_id = models.AutoField(primary_key=True)
-    project_name = models.CharField(max_length=30, default="작성중....")
-    start_date = models.DateField(default=timezone.now)
-    describe = models.CharField(max_length=50, default="작성중....")
-    link = models.URLField(default="작성중....")
-
-    readme_path = models.FilePathField(path="/path/to/readme", match=".*\.md$", null=True, blank=True)
+    project_name = models.CharField(max_length=30, null=True, blank=True)
+    start_at = models.DateField(default=timezone.now)
+    end_at = models.DateField(null=True, blank=True)
+    describe = models.CharField(max_length=50, null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    readme_file = models.FileField(upload_to="readme/", null=True, blank=True)
 
     def __str__(self):
         return self.project_name
 
 
-class ContentMetadata(models.Model):
-    content_id = models.CharField(max_length=255, primary_key=True)
-    content_description = models.CharField(max_length=255, null=True)
-
-    def __str__(self):
-        return self.content_description
-
-
 class SkillMapping(models.Model):
-    skill_mapping_id = models.CharField(max_length=255)
-    skill_set = models.ForeignKey(SkillSet, on_delete=models.CASCADE)
-    project = models.ForeignKey(ProjectInfo, on_delete=models.CASCADE)
+    skill_name = models.ForeignKey("SkillSet", related_name="skill_mappings", on_delete=models.CASCADE)
+    project_id = models.ForeignKey("ProjectInfo", related_name="skill_mappings", on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("skill_mapping_id", "skill_set"),)
+        unique_together = (("project_id", "skill_name"),)
         verbose_name = "Skill Mapping"
         verbose_name_plural = "Skill Mappings"
 
     def __str__(self):
-        return f"{self.skill_set} - {self.project}"
+        return f"{self.project_id} - {self.skill_name}"
+
+
+class ContentMetadata(models.Model):
+    project_id = models.ForeignKey(
+        "ProjectInfo", primary_key=True, related_name="content_metadata", on_delete=models.CASCADE, unique=False
+    )
+    content = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.content
