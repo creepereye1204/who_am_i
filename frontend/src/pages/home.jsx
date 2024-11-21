@@ -63,6 +63,7 @@ import React from "react";
 import Intro from "../components/intro";
 import styled from "styled-components";
 import Navbar from "../components/navbar";
+import Projects from "../components/projects";
 const Style = styled.div``;
 
 const Home = () => {
@@ -70,6 +71,7 @@ const Home = () => {
     <Style>
       <Navbar />
       <Intro />
+      <Projects />
     </Style>
   );
 };
