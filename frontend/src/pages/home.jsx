@@ -64,6 +64,7 @@ import Intro from "../components/intro";
 import styled from "styled-components";
 import Navbar from "../components/navbar";
 import Projects from "../components/projects";
+import AboutMe from "../components/aboutMe";
 const Style = styled.div``;
 
 const Home = () => {
@@ -71,6 +72,7 @@ const Home = () => {
     <Style>
       <Navbar />
       <Intro />
+      <AboutMe />
       <Projects />
     </Style>
   );
