@@ -125,4 +125,59 @@
       margin-top: 1.5rem;
     }
   }
-`,ur=({direction:e,scrollToIntro:t})=>r.createElement("nav",{id:e},r.createElement(ve,{className:"section",onClick:t},"About me"),r.createElement(ve,{className:"section",onClick:t},"Skills"),r.createElement(ve,{className:"section",onClick:t},"Archiving"),r.createElement(ve,{className:"section",onClick:t},"Projects"),r.createElement(ve,{className:"section",onClick:t},"Career")),sr=({scrollToIntro:e})=>{const[t,n]=(0,r.useState)(!1);return r.createElement(ir,{isOpen:t},r.createElement("div",{id:"header"},r.createElement("div",{id:"header_content"},r.createElement(ve,{id:"logo",onClick:e},"CJW's Portfolio"),r.createElement(ur,{direction:"horizontal_nav_links",scrollToIntro:e}),r.createElement("div",{id:"hamburger",onClick:()=>{n(!t)}},r.createElement("hr",{className:"bar"}),r.createElement("hr",{className:"bar"}),r.createElement("hr",{className:"bar"}))),r.createElement(ur,{direction:"vertical_nav_links",scrollToIntro:e})))},cr=nr.div``,fr=()=>r.createElement(cr,null,r.createElement(sr,null),r.createElement(or,null)),dr=()=>r.createElement(pe,null,r.createElement(ue,null,r.createElement(oe,{path:"/",element:r.createElement(fr,null)}))),pr=document.getElementById("app");(0,t.render)(r.createElement(dr,null),pr)})()})();
+`,ur=({direction:e,scrollToIntro:t})=>r.createElement("nav",{id:e},r.createElement(ve,{className:"section",onClick:t},"About me"),r.createElement(ve,{className:"section",onClick:t},"Skills"),r.createElement(ve,{className:"section",onClick:t},"Archiving"),r.createElement(ve,{className:"section",onClick:t},"Projects"),r.createElement(ve,{className:"section",onClick:t},"Career")),sr=({scrollToIntro:e})=>{const[t,n]=(0,r.useState)(!1);return r.createElement(ir,{isOpen:t},r.createElement("div",{id:"header"},r.createElement("div",{id:"header_content"},r.createElement(ve,{id:"logo",onClick:e},"CJW's Portfolio"),r.createElement(ur,{direction:"horizontal_nav_links",scrollToIntro:e}),r.createElement("div",{id:"hamburger",onClick:()=>{n(!t)}},r.createElement("hr",{className:"bar"}),r.createElement("hr",{className:"bar"}),r.createElement("hr",{className:"bar"}))),r.createElement(ur,{direction:"vertical_nav_links",scrollToIntro:e})))},cr=nr.div`
+  .containers {
+    display: flex;
+  }
+  .container {
+    padding: 2rem;
+    height: 200px;
+  }
+`,fr=({title:e,date:t,description:n,contents:a,skills:l,link:o})=>r.createElement("div",{className:"container"},r.createElement("div",{className:"title"},e),r.createElement("div",{className:"date"},t),r.createElement("div",{className:"describe"},n),r.createElement("div",{className:"contents"},r.createElement("ul",null,a.map(((e,t)=>r.createElement("li",{key:t,className:"content"},e))))),r.createElement("div",{className:"link"},r.createElement("a",{href:o,target:"_blank",rel:"noopener noreferrer"},"Project Link")),r.createElement("div",{className:"skills"},l.map(((e,t)=>r.createElement("span",{key:t,className:"skill"},e)))),r.createElement("button",{className:"readme-btn"},"View README")),dr=()=>r.createElement(cr,null,r.createElement("div",{className:"containers"},[{title:"My Project",date:"2024-01-01",description:"This is a description of my project.",contents:["Content 1","Content 2","Content 3"],skills:["React","Styled-Components","JavaScript"],link:"https://example.com"},{title:"Another Project",date:"2024-02-01",description:"This is another description.",contents:["Content A","Content B"],skills:["HTML","CSS","JavaScript"],link:"https://example2.com"}].map(((e,t)=>r.createElement(fr,{key:t,title:e.title,date:e.date,description:e.description,contents:e.contents,skills:e.skills,link:e.link}))))),pr=a.p+"src/icons/birthdate.svg",hr=a.p+"src/icons/education.svg",mr=a.p+"src/icons/email.svg",vr=a.p+"src/icons/location.svg",gr=a.p+"src/icons/name.svg",yr=a.p+"src/icons/phone.svg",br=nr.div`
+  #container {
+    text-align: center;
+    width: 100%;
+    padding-top: 3rem;
+  }
+  #content {
+    max-width: 71.25rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  #title {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 2.5rem;
+    font-weight: bolder;
+  }
+  #bar {
+    width: 10rem;
+    border: 0.1rem solid grey;
+  }
+  .icons {
+    display: flex;
+    margin: 2rem 5rem;
+
+    column-gap: 2rem;
+  }
+  .icon {
+    width: 2.5rem;
+    height: auto;
+    opacity: 0.8;
+  }
+  .text {
+    text-align: start;
+    width: 5rem;
+    overflow-wrap: break-word;
+    opacity: 0.8;
+  }
+  .form {
+    font-size: 1.5rem;
+  }
+  .input {
+    font-size: 0.8rem;
+    font-weight: 200;
+  }
+`,wr=({data:e})=>{const{src:t,label:n,info:a}=e;return r.createElement("div",{className:"icons"},r.createElement("div",null,r.createElement("img",{src:"/home/apps/cjw-portfolio/media/badge/python.svg",alt:n,className:"icon"})),r.createElement("div",{className:"text"},r.createElement("div",{className:"form"},n),r.createElement("div",{className:"input"},a)))},kr=()=>{const e=[{src:pr,label:"생일",info:"1934-10-04(틀딱)"},{src:hr,label:"학력",info:"삼육대학교(인공지능 융합학부)"},{src:mr,label:"이메일",info:"maratanghuru@gmail.com"},{src:vr,label:"위치",info:"파인하우스"},{src:gr,label:"이름",info:"빅랩"},{src:yr,label:"전화번호",info:"010-1234-5678"}];return r.createElement(br,null,r.createElement("div",{id:"container"},r.createElement("div",{id:"title"},"ABOUT ME"),r.createElement("hr",{id:"bar"}),r.createElement("div",{id:"content"},e.map(((e,t)=>r.createElement(wr,{key:t,data:e}))))))},Sr=nr.div``,Er=()=>r.createElement(Sr,null,r.createElement(sr,null),r.createElement(or,null),r.createElement(kr,null),r.createElement(dr,null)),xr=()=>r.createElement(pe,null,r.createElement(ue,null,r.createElement(oe,{path:"/",element:r.createElement(Er,null)}))),Cr=document.getElementById("app");(0,t.render)(r.createElement(xr,null),Cr)})()})();

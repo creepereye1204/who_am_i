@@ -7,9 +7,6 @@ import location from "../icons/location.svg";
 import name from "../icons/name.svg";
 import phone from "../icons/phone.svg";
 const Style = styled.div`
-  * {
-    font-family: "Black Han Sans", sans-serif;
-  }
   #container {
     text-align: center;
     width: 100%;
@@ -24,6 +21,7 @@ const Style = styled.div`
     flex-wrap: wrap;
   }
   #title {
+    font-family: "Black Han Sans", sans-serif;
     font-size: 2.5rem;
     font-weight: bolder;
   }
@@ -45,6 +43,15 @@ const Style = styled.div`
   .text {
     text-align: start;
     width: 5rem;
+    overflow-wrap: break-word;
+    opacity: 0.8;
+  }
+  .form {
+    font-size: 1.5rem;
+  }
+  .input {
+    font-size: 0.8rem;
+    font-weight: 200;
   }
 `;
 
@@ -52,15 +59,15 @@ const Icon = ({ data }) => {
   const { src, label, info } = data;
 
   return (
-    <card className="icons">
+    <div className="icons">
       <div>
         <img src={src} alt={label} className="icon" />
       </div>
       <div className="text">
-        <div>{label}</div>
-        <div>{info}</div>
+        <div className="form">{label}</div>
+        <div className="input">{info}</div>
       </div>
-    </card>
+    </div>
   );
 };
 

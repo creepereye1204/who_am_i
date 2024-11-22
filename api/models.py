@@ -4,7 +4,11 @@ from django.utils import timezone
 
 class SkillSet(models.Model):
     skill_name = models.CharField(max_length=15, primary_key=True)
-    badge_file = models.ImageField(upload_to="badge/", null=True, blank=True)
+    badge_file = models.FileField(upload_to="badge/", null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Skill Set"
+        verbose_name_plural = "Skill Sets"
 
     def __str__(self):
         return self.skill_name
@@ -18,6 +22,10 @@ class ProjectInfo(models.Model):
     describe = models.CharField(max_length=50, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     readme_file = models.FileField(upload_to="readme/", null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Project Info"
+        verbose_name_plural = "Project Infos"
 
     def __str__(self):
         return self.project_name
@@ -41,6 +49,10 @@ class ContentMetadata(models.Model):
         "ProjectInfo", primary_key=True, related_name="content_metadata", on_delete=models.CASCADE, unique=False
     )
     content = models.CharField(max_length=50, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Content Metadata"
+        verbose_name_plural = "Content Metadata"
 
     def __str__(self):
         return self.content
