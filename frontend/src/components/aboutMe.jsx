@@ -112,7 +112,7 @@ const AboutMe = () => {
         <hr id="bar"></hr>
         <div id="content">
           {iconsData.map((data, index) => (
-            <Icon key={index} data={data} /> // Icon 컴포넌트 반복 렌더링
+            <Icon key={index} data={data} />
           ))}
         </div>
       </div>

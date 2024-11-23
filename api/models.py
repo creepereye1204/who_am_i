@@ -56,3 +56,15 @@ class ContentMetadata(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class FiledInfo(models.Model):
+    skill_id = models.ForeignKey("SkillSet", on_delete=models.CASCADE)
+    filed = models.CharField(max_length=30, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Filed Info"
+        verbose_name_plural = "Filed Infos"
+
+    def __str__(self):
+        return self.filed

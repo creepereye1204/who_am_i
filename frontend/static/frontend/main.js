@@ -180,4 +180,43 @@
     font-size: 0.8rem;
     font-weight: 200;
   }
-`,wr=({data:e})=>{const{src:t,label:n,info:a}=e;return r.createElement("div",{className:"icons"},r.createElement("div",null,r.createElement("img",{src:"/home/apps/cjw-portfolio/media/badge/python.svg",alt:n,className:"icon"})),r.createElement("div",{className:"text"},r.createElement("div",{className:"form"},n),r.createElement("div",{className:"input"},a)))},kr=()=>{const e=[{src:pr,label:"생일",info:"1934-10-04(틀딱)"},{src:hr,label:"학력",info:"삼육대학교(인공지능 융합학부)"},{src:mr,label:"이메일",info:"maratanghuru@gmail.com"},{src:vr,label:"위치",info:"파인하우스"},{src:gr,label:"이름",info:"빅랩"},{src:yr,label:"전화번호",info:"010-1234-5678"}];return r.createElement(br,null,r.createElement("div",{id:"container"},r.createElement("div",{id:"title"},"ABOUT ME"),r.createElement("hr",{id:"bar"}),r.createElement("div",{id:"content"},e.map(((e,t)=>r.createElement(wr,{key:t,data:e}))))))},Sr=nr.div``,Er=()=>r.createElement(Sr,null,r.createElement(sr,null),r.createElement(or,null),r.createElement(kr,null),r.createElement(dr,null)),xr=()=>r.createElement(pe,null,r.createElement(ue,null,r.createElement(oe,{path:"/",element:r.createElement(Er,null)}))),Cr=document.getElementById("app");(0,t.render)(r.createElement(xr,null),Cr)})()})();
+`,wr=({data:e})=>{const{src:t,label:n,info:a}=e;return r.createElement("div",{className:"icons"},r.createElement("div",null,r.createElement("img",{src:t,alt:n,className:"icon"})),r.createElement("div",{className:"text"},r.createElement("div",{className:"form"},n),r.createElement("div",{className:"input"},a)))},kr=()=>{const e=[{src:pr,label:"생일",info:"1934-10-04(틀딱)"},{src:hr,label:"학력",info:"삼육대학교(인공지능 융합학부)"},{src:mr,label:"이메일",info:"maratanghuru@gmail.com"},{src:vr,label:"위치",info:"파인하우스"},{src:gr,label:"이름",info:"빅랩"},{src:yr,label:"전화번호",info:"010-1234-5678"}];return r.createElement(br,null,r.createElement("div",{id:"container"},r.createElement("div",{id:"title"},"ABOUT ME"),r.createElement("hr",{id:"bar"}),r.createElement("div",{id:"content"},e.map(((e,t)=>r.createElement(wr,{key:t,data:e}))))))},Sr=a.p+"src/icons/dev-ops.svg",Er=a.p+"src/icons/backend.svg",xr=a.p+"src/icons/language.svg",Cr=a.p+"src/icons/frontend.svg",_r=nr.div`
+  #container {
+    width: 100%;
+    padding: 4rem 1.5rem;
+    background-color: #f9c51d;
+    box-sizing: border-box;
+  }
+  #contents {
+    max-width: 71.25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    border-radius: 4rem;
+    background-color: hsla(0, 0%, 100%, 0.8);
+  }
+  #title {
+    text-align: center;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 2.5rem;
+    font-weight: bolder;
+  }
+  #bar {
+    width: 10rem;
+    border: 0.1rem solid grey;
+  }
+  .icon {
+    width: 3rem;
+    height: auto;
+  }
+  .badge {
+    display: flex;
+    margin: 1rem;
+    gap: 2rem;
+  }
+  .field {
+    font-family: "Black Han Sans", sans-serif;
+  }
+`,Pr=({data:e})=>{const{icon:t,label:n,badges:a}=e;return r.createElement("div",{className:"badge"},r.createElement("img",{src:t,alt:n,className:"icon"}),r.createElement("p",{className:"field"},n),a.map(((e,t)=>{})))},Nr=()=>{const e=[{icon:xr,label:"lang",badges:["python"]},{icon:Cr,label:"front",badges:["python"]},{icon:Er,label:"back",badges:["python"]},{icon:Sr,label:"dev",badges:["python"]}];return r.createElement(_r,null,r.createElement("div",{id:"container"},r.createElement("div",{id:"title"},"SKILLS"),r.createElement("hr",{id:"bar"}),r.createElement("div",{id:"contents"},e.map(((e,t)=>r.createElement(Pr,{data:e,key:t}))))))},Or=nr.div``,Tr=()=>r.createElement(Or,null,r.createElement(sr,null),r.createElement(or,null),r.createElement(kr,null),r.createElement(Nr,null),r.createElement(dr,null)),Rr=()=>r.createElement(pe,null,r.createElement(ue,null,r.createElement(oe,{path:"/",element:r.createElement(Tr,null)}))),zr=document.getElementById("app");(0,t.render)(r.createElement(Rr,null),zr)})()})();
