@@ -3,7 +3,8 @@ from django.utils import timezone
 
 
 class SkillSet(models.Model):
-    skill_name = models.CharField(max_length=15, primary_key=True)
+    skill_id = models.AutoField(primary_key=True)
+    skill_name = models.CharField(max_length=15, unique=True)
     badge_file = models.FileField(upload_to="badge/", null=True, blank=True)
 
     class Meta:
@@ -32,16 +33,16 @@ class ProjectInfo(models.Model):
 
 
 class SkillMapping(models.Model):
-    skill_name = models.ForeignKey("SkillSet", related_name="skill_mappings", on_delete=models.CASCADE)
+    skill_id = models.ForeignKey("SkillSet", related_name="skill_mappings", on_delete=models.CASCADE)
     project_id = models.ForeignKey("ProjectInfo", related_name="skill_mappings", on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("project_id", "skill_name"),)
+        unique_together = (("project_id", "skill_id"),)
         verbose_name = "Skill Mapping"
         verbose_name_plural = "Skill Mappings"
 
     def __str__(self):
-        return f"{self.project_id} - {self.skill_name}"
+        return f"{self.project_id} - {self.skill_id}"
 
 
 class ContentMetadata(models.Model):

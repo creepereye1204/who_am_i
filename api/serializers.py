@@ -6,7 +6,7 @@ from .models import SkillSet, ProjectInfo
 class SkillSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillSet
-        fields = "__all__"
+        fields = ["skill_name"]  # skill_name만 포함하도록 수정
 
 
 class ProjectInfoSerializer(serializers.ModelSerializer):
