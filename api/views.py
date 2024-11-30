@@ -21,7 +21,6 @@ def create_project(request, *args, **kwargs):
             "end_at": request.data.get("endAt"),
             "describe": request.data.get("describe"),
             "link": request.data.get("link"),
-            "readme_file": request.data.get("readMe"),
         }
         if not project_data["project_name"]:
             return Response({"error": "Project title is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -44,6 +43,9 @@ def create_project(request, *args, **kwargs):
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+        pass
+
+        cache.set(key=f"projects" , value= , timeout=False)
         return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
 
     except Exception as e:

@@ -1,6 +1,6 @@
 import os
 from typing import List
-from .models import ReadMe, ContentMetadata, SkillMapping, SkillSet
+from .models import ReadMe, ContentMetadata, SkillMapping, SkillSet, ProjectInfo, FiledInfo
 from rest_framework.exceptions import ValidationError
 
 
@@ -76,3 +76,15 @@ class SubView:
                 SkillMapping.objects.create(project_id=project_id, skill_id=skill_id)
             except SkillSet.DoesNotExist:
                 raise ValidationError(f"Skill '{skill}' does not exist.")
+
+    @staticmethod
+    def list_projects():
+        """
+        ProjectInfo 모델에서 project_name, description, skills, readme, content, skill_names, image_files, markdown_file_name을
+        조회하여 List[dict]로 return
+
+        Returns:
+            List[dict]: project_info_list
+        """
+        project_info_list = []
+        projects = ProjectInfo.objects.all()
