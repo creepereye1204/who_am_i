@@ -1,8 +1,7 @@
 import os
 from typing import List
-from .models import ReadMe
+from .models import ReadMe, ContentMetadata, SkillMapping, SkillSet
 from rest_framework.exceptions import ValidationError
-from django.core.cache import cache
 
 
 class SubView:
@@ -40,5 +39,40 @@ class SubView:
             for file in files:
                 ReadMe.objects.create(project_id=project_id, file=file)
 
-            cache_key = f"readme_{project_id}"
-            cache.set(cache_key, serializer.data, timeout=None)
+    @staticmethod
+    def create_contents(project_id: int, contents: List):
+        """
+        ContentMetadata 모델에 project_id, content를 저장함
+
+        Args:
+            project_id (int): Project 테이블의 기본키
+            contents (List[str]): content 리스트
+
+        Returns:
+            None : 리턴값 없음
+
+        """
+        for content in contents:
+            ContentMetadata.objects.create(project_id=project_id, content=content)
+
+    @staticmethod
+    def create_skills(project_id: int, skills: List):
+        """
+        SkillMapping 모델에 project_id, skill_name을 저장함
+
+        Args:
+            project_id (int): Project 테이블의 기본키
+            skills (List[str]): skill 리스트
+
+        Returns:
+            None : 리턴값 없음
+
+        Raises:
+            ValidationError: 스킬 없으면 예외발생 시킬꺼임
+        """
+        for skill in skills:
+            try:
+                skill_id = SkillSet.objects.get(skill_name=skill)
+                SkillMapping.objects.create(project_id=project_id, skill_id=skill_id)
+            except SkillSet.DoesNotExist:
+                raise ValidationError(f"Skill '{skill}' does not exist.")
