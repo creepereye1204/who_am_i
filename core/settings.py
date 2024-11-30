@@ -18,18 +18,18 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-try:
-    with open("./database.pkl", "rb") as pickle_file:
-        DATABASES = pickle.load(pickle_file)
-        DEBUG = False
-except Exception:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+# try:
+#     with open("./database.pkl", "rb") as pickle_file:
+#         DATABASES = pickle.load(pickle_file)
+#         DEBUG = False
+# except Exception:
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-    DEBUG = True
+}
+DEBUG = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 

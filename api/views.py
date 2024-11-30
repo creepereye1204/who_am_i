@@ -1,16 +1,17 @@
 # views.py
 from django.core.cache import cache
-from .models import SkillSet, ProjectInfo, ContentMetadata, SkillMapping
-from .serializers import SkillSetSerializer, ProjectInfoSerializer
+from .models import SkillSet, ProjectInfo, ContentMetadata, SkillMapping, ReadMe
+from .serializers import SkillSetSerializer, ProjectsListSerializer, ReadMeSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.db import transaction
+from .utils import SubView
 
 
 @api_view(["POST"])
 @transaction.atomic
-def add_project(request, *args, **kwargs):
+def create_project(request, *args, **kwargs):
     try:
 
         project_data = {
@@ -45,7 +46,53 @@ def add_project(request, *args, **kwargs):
 
 
 @api_view(["GET"])
-def get_skills(request, *args, **kwargs):
+def list_projects(request, *args, **kwargs):
+    cache_key = "projects_list"
+    projects = cache.get(cache_key)
+    if projects is None:
+        try:
+            projects = ProjectInfo.objects.all()
+            serializer = ProjectsListSerializer(projects, many=False)
+            cache.set(cache_key, serializer.data, timeout=None)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(projects, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def retrieve_readme(request, project_id, *args, **kwargs):
+    cache_key = f"readme_{project_id}"
+    readme = cache.get(cache_key)
+    if readme is None:
+        try:
+
+            readme = ReadMe.objects.filter(project_id=project_id).first()
+            serializer = ReadMeSerializer(readme)
+            cache.set(cache_key, serializer.data, timeout=None)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(readme, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+def create_readme(request, *args, **kwargs):
+    try:
+        project_id = request.data.get("project_id")
+        files = request.data.get("files", [])
+        SubView.create_readme(project_id, files)
+
+        return Response({"message": "Readme updated successfully."}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["GET"])
+def list_skills(request, *args, **kwargs):
     cache_key = "all_skills"
     skills = cache.get(cache_key)
     if skills is None:
@@ -61,7 +108,7 @@ def get_skills(request, *args, **kwargs):
 
 
 @api_view(["POST"])
-def update_skills(request, *args, **kwargs):
+def modify_skills(request, *args, **kwargs):
     try:
         skills = request.data.get("skills", [])
         cache_key = "all_skills"

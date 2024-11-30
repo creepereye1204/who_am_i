@@ -1,5 +1,16 @@
+import os
 from django.db import models
 from django.utils import timezone
+
+
+def get_file_upload_path(instance, filename):
+
+    directory = os.path.join("readme", str(instance.project_id.id))
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    return os.path.join(directory, filename)
 
 
 class SkillSet(models.Model):
@@ -22,7 +33,6 @@ class ProjectInfo(models.Model):
     end_at = models.DateField(null=True, blank=True)
     describe = models.CharField(max_length=50, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
-    readme_file = models.FileField(upload_to="readme/", null=True, blank=True)
 
     class Meta:
         verbose_name = "Project Info"
@@ -69,3 +79,8 @@ class FiledInfo(models.Model):
 
     def __str__(self):
         return self.filed
+
+
+class ReadMe(models.Model):
+    project_id = models.ForeignKey("ProjectInfo", related_name="readme", on_delete=models.CASCADE, unique=False)
+    file_path = models.FileField(upload_to=get_file_upload_path, null=True, blank=True)
