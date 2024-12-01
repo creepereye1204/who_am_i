@@ -10,7 +10,7 @@ from django.db import transaction
 from .utils import SubView
 
 
-# write
+# create
 @api_view(["POST"])
 @transaction.atomic
 def create_project(request, *args, **kwargs):
@@ -43,9 +43,7 @@ def create_project(request, *args, **kwargs):
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        pass
-
-        cache.set(key=f"projects" , value= , timeout=False)
+        cache.set("projects", SubView.list_projects(), timeout=False)
         return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
 
     except Exception as e:
@@ -90,21 +88,20 @@ def create_skills(request, *args, **kwargs):
 # read
 @api_view(["GET"])
 def list_projects(request, *args, **kwargs):
-    cache_key = "projects"
-    projects = cache.get(cache_key)
+
+    projects = cache.get("projects")
     if projects is None:
         try:
-            projects = ProjectInfo.objects.all()
-            serializer = ProjectsListSerializer(projects, many=False)
-            cache.set(cache_key, serializer.data, timeout=None)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            projects = SubView.list_projects()
+            cache.set("projects", projects, timeout=False)
+            return Response(projects, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response(projects, status=status.HTTP_200_OK)
 
 
-@api_view(["GET"])
+@api_view(["GET"])  # TODO: SUBVIEW에 캡슐화 및 캐싱 적용 해야됨
 def retrieve_readme(request, project_id, *args, **kwargs):
     cache_key = f"readme_{project_id}"
     readme = cache.get(cache_key)
@@ -133,3 +130,8 @@ def modify_skills(request, *args, **kwargs):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# TODO: 나머지도 기능 구현하기
+
+# update

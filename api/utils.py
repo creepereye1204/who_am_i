@@ -86,5 +86,22 @@ class SubView:
         Returns:
             List[dict]: project_info_list
         """
-        project_info_list = []
-        projects = ProjectInfo.objects.all()
+
+        response_data = []
+        projects = ProjectInfo.objects.prefetch_related("skill_mappings__skill_id", "content_metadata").all()
+        for project in projects:
+            skill_badge_files = [skill_mapping.skill_id.badge_file for skill_mapping in project.skill_mappings.all()]
+            contents = [content.content for content in project.content_metadata.all()]
+
+            response_data.append(
+                {
+                    "project_name": project.project_name,
+                    "start_at": project.start_at,
+                    "end_at": project.end_at,
+                    "link": project.link,
+                    "description": project.description,
+                    "skills": skill_badge_files,
+                    "contents": contents,
+                }
+            )
+        return response_data
