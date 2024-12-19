@@ -2,6 +2,31 @@ import os
 from typing import List
 from .models import ReadMe, ContentMetadata, SkillMapping, SkillSet, ProjectInfo, FiledInfo
 from rest_framework.exceptions import ValidationError
+from django.core.cache import cache
+from functools import wraps
+from enum import Enum
+
+
+def cache_state(func):
+    """
+    UPDATE 후 상태 캐싱
+
+    Args:
+        func (function): 캐시를 적용할 함수
+    """
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        response, state, data = func(*args, **kwargs)
+        cache.set(state, data)
+        return response
+
+    return wrapper
+
+
+class State(Enum):
+    PROJECT = "PROJECT"
+    README = "README"
 
 
 class SubView:
@@ -105,3 +130,18 @@ class SubView:
                 }
             )
         return response_data
+
+    @staticmethod
+    def delete_readme(project_id: int):
+        """
+        ReadMe 모델에서 project_id로 readme를 ��제
+
+        Args:
+            project_id (int): ProjectInfo ��이블의 기본키
+
+        Returns:
+            None : 리턴값 없음
+        """
+
+        file_path = ReadMe.objects.filter(project_id=project_id).file_path
+        os.remove(file_path)
