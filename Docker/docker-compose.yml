@@ -1,0 +1,92 @@
+# version: '3.8'
+
+# services:
+#   nginx:
+#     build:
+#       context: ./nginx
+#       dockerfile: Dockerfile
+#     ports:
+#       - "80:80"
+#       - "443:443"
+
+#   postgresql:
+#     build:
+#       context: ./postgresql
+#       dockerfile: Dockerfile
+#     ports:
+#       - "5432:5432"
+
+#   python:
+#     build:
+#       context: ./python
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - postgresql
+
+#   redis:
+#     build:
+#       context: ./redis
+#       dockerfile: Dockerfile
+
+#     ports:
+#       - "6379:6379"
+
+#   prometheus:
+#     build:
+#       context: ./prometheus
+#       dockerfile: Dockerfile
+
+#     ports:
+#       - "9090:9090"
+
+#   grafana:
+#     build:
+#       context: ./grafana
+#       dockerfile: Dockerfile
+
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - prometheus
+
+version: '3.8'
+
+services:
+  nginx:
+    image: docker-nginx # Nginx 이미지
+    ports:
+      - "80:80"
+      - "443:443"
+
+  postgresql:
+    image: docker-postgres # PostgreSQL 이미지
+    ports:
+      - "5432:5432"
+
+  python:
+    image: docker-python # Python 앱 이미지
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresql
+    deploy:
+      replicas: 3
+
+  redis:
+    image: docker-redis # Redis 이미지
+    ports:
+      - "6379:6379"
+
+  prometheus:
+    image: docker-prometheus # Prometheus 이미지
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: docker-grafana # Grafana 이미지
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
