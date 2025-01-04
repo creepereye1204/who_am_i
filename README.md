@@ -30,3 +30,5 @@
 ## 스킬 아이콘 출처
 
 https://github.com/tandpfun/skill-icons?tab=readme-ov-file#icons-list
+
+.
