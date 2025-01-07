@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y \
 
 # Poetry 설치
 RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="$HOME/.local/bin:$PATH"  
+
+
+COPY ./app /app
 
 # 작업 디렉토리 설정
 WORKDIR /app
