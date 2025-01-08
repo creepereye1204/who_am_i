@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: who-am-i-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - who-am-i_nginx-data:/etc
+
+  postgresql:
+    image: who-am-i-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - who-am-i_postgres-data:/var/lib/postgresql/data
+
+  python:
+    image: who-am-i-python
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresql
+    volumes:
+      - who-am-i_python-data:/app
+      - who-am-i_venv-data:/root
+    deploy:
+      replicas: 3
+
+  redis:
+    image: who-am-i-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - who-am-i_redis-data:/data # Redis 데이터 저장용 볼륨
+
+  prometheus:
+    image: who-am-i-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - who-am-i_prometheus-data:/prometheus
+
+  grafana:
+    image: who-am-i-grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - who-am-i_grafana-data:/grafana
+
+  locust:
+    image: who-am-i-locust
+    ports:
+      - "8089:8089"
+    depends_on:
+      - python
+    volumes:
+      - who-am-i_locust-data:/app
+
+volumes:
+  who-am-i_nginx-data:
+    external: true
+  who-am-i_postgres-data:
+    external: true
+  who-am-i_python-data:
+    external: true
+  who-am-i_redis-data:
+    external: true
+  who-am-i_prometheus-data:
+    external: true
+  who-am-i_grafana-data:
+    external: true
+  who-am-i_locust-data:
+    external: true
+  who-am-i_venv-data:
+    external: true

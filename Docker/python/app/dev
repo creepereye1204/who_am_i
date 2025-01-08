@@ -24,6 +24,9 @@ npm-run:
 runserver:
 	poetry run python manage.py runserver
 
+.PHONY: init
+all: migrations migrate npm-run collect
+
 .PHONY: all
 all: migrations migrate npm-run collect runserver
 
