@@ -19,14 +19,15 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 ENV PATH="/usr/local/bin:$PATH"
 
 # Poetry 설치
-RUN curl -sSL https://install.python-poetry.org | python3 - 
-ENV PATH="$HOME/.local/bin:$PATH"
+# RUN curl -sSL https://install.python-poetry.org | python3 - 
+# ENV PATH="$HOME/.local/bin:$PATH"
 
 
 # 앱 파일 복사
 COPY ./app /app
 WORKDIR /app
-RUN poetry shell && poetry install
+RUN pip install poetry
+RUN poetry install
 
 
 # app/frontend 디렉토리로 이동하여 package.json 설치

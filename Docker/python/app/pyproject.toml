@@ -1,6 +1,6 @@
 [tool.poetry]
 package-mode = false
-name = "프로젝트 이름"
+name = "who-am-i"
 version = "0.1.0"
 description = "프로젝트 설명"
 authors = ["Creeper Eye <iostream1204@gmail.com>"]

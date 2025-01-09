@@ -20,6 +20,7 @@ RUN mkdir -p /etc/nginx/sites-available && \
 COPY ./python.conf /etc/nginx/sites-available/python.conf
 RUN ln -s /etc/nginx/sites-available/python.conf /etc/nginx/sites-enabled/python.conf
 
+
 # Nginx가 사용할 포트 노출
 EXPOSE 80 443
 

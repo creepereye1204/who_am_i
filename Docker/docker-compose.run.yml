@@ -8,6 +8,7 @@ services:
       - "443:443"
     volumes:
       - nginx-data:/etc # Nginx 설정 파일 저장용 볼륨
+      - python-data:/app # Python 앱 데이터 저장용 볼륨
 
   postgresql:
     image: who-am-i-postgres # PostgreSQL 이미지
@@ -25,6 +26,7 @@ services:
     volumes:
       - python-data:/app # Python 앱 데이터 저장용 볼륨
       - venv-data:/root # Python 앱 데이터 저장용 볼륨
+
     deploy:
       replicas: 3
 
@@ -67,3 +69,5 @@ volumes:
   grafana-data: # Grafana 볼륨 정의
   locust-data: # Locust 볼륨 정의
   venv-data:
+
+
