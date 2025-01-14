@@ -22,12 +22,13 @@ ENV PATH="/usr/local/bin:$PATH"
 # RUN curl -sSL https://install.python-poetry.org | python3 - 
 # ENV PATH="$HOME/.local/bin:$PATH"
 
-
+# Poetry 설치
+RUN pip install poetry==1.8.4
 # 앱 파일 복사
 COPY ./app /app
 WORKDIR /app
-RUN pip install poetry
-RUN poetry install
+RUN poetry config virtualenvs.in-project true
+RUN poetry install --no-interaction --no-ansi && poetry django_prometheus --no-interaction --no-ansi
 
 
 # app/frontend 디렉토리로 이동하여 package.json 설치

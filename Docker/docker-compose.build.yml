@@ -7,24 +7,32 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80" # HTTP 포트
+      - "443:443" # HTTPS 포트
+    depends_on:
+      - python
+
+  nginx_exporter:
+    image: who-am-i-nginx_exporter
+    build:
+      context: ./nginx-exporter
+      dockerfile: Dockerfile
+    depends_on:
+      - nginx
 
   postgresql:
     image: who-am-i-postgresql
     build:
       context: ./postgresql
       dockerfile: Dockerfile
-    ports:
-      - "5432:5432"
+    # PostgreSQL 포트 매핑 제거
 
   python:
     image: who-am-i-python
     build:
       context: ./python
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    # Python 포트 매핑 제거
     depends_on:
       - postgresql
 
@@ -33,24 +41,21 @@ services:
     build:
       context: ./redis
       dockerfile: Dockerfile
-    ports:
-      - "6379:6379"
+    # Redis 포트 매핑 제거
 
   prometheus:
     image: who-am-i-prometheus
     build:
       context: ./prometheus
       dockerfile: Dockerfile
-    ports:
-      - "9090:9090"
+    # Prometheus 포트 매핑 제거
 
   grafana:
     image: who-am-i-grafana
     build:
       context: ./grafana
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+    # Grafana 포트 매핑 제거
     depends_on:
       - prometheus
 
@@ -59,5 +64,8 @@ services:
     build:
       context: ./locust
       dockerfile: Dockerfile
-    ports:
-      - "8089:8089"
+    # Locust 포트 매핑 제거
+
+networks:
+  default:
+    driver: bridge

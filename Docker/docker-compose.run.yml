@@ -3,49 +3,46 @@ version: '3.8'
 services:
   nginx:
     image: who-am-i-nginx # Nginx 이미지
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - nginx-data:/etc # Nginx 설정 파일 저장용 볼륨
-      - python-data:/app # Python 앱 데이터 저장용 볼륨
+
+  nginx_exporter:
+    image: who-am-i-nginx_exporter
+    restart: unless-stopped
+
+    depends_on:
+      - nginx
 
   postgresql:
-    image: who-am-i-postgres # PostgreSQL 이미지
-    ports:
-      - "5432:5432"
+    image: who-am-i-postgresql # PostgreSQL 이미지
+    restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data # PostgreSQL 데이터 저장용 볼륨
 
   python:
     image: who-am-i-python # Python 앱 이미지
-    ports:
-      - "8000:8000"
+
+    restart: unless-stopped
     depends_on:
       - postgresql
-    volumes:
-      - python-data:/app # Python 앱 데이터 저장용 볼륨
-      - venv-data:/root # Python 앱 데이터 저장용 볼륨
 
     deploy:
+
       replicas: 3
 
   redis:
     image: who-am-i-redis # Redis 이미지
-    ports:
-      - "6379:6379"
+    restart: unless-stopped
 
   prometheus:
     image: who-am-i-prometheus # Prometheus 이미지
-    ports:
-      - "9090:9090"
-    volumes:
-      - prometheus-data:/prometheus # Prometheus 데이터 저장용 볼륨
+    restart: unless-stopped
 
   grafana:
     image: who-am-i-grafana # Grafana 이미지
-    ports:
-      - "3000:3000"
+    restart: unless-stopped
     depends_on:
       - prometheus
     volumes:
@@ -53,8 +50,7 @@ services:
 
   locust:
     image: who-am-i-locust
-    ports:
-      - "8089:8089"
+    restart: unless-stopped
     depends_on:
       - python
     volumes:
@@ -63,11 +59,10 @@ services:
 volumes:
   nginx-data: # Nginx 볼륨 정의
   postgres-data: # PostgreSQL 볼륨 정의
-  python-data: # Python 볼륨 정의
   redis-data: # Redis 볼륨 정의
   prometheus-data: # Prometheus 볼륨 정의
   grafana-data: # Grafana 볼륨 정의
-  locust-data: # Locust 볼륨 정의
-  venv-data:
+  locust-data:
+    # Locust 볼륨 정의
 
 

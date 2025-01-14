@@ -18,4 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = []
+urlpatterns = [
+    # ... 다른 URL 패턴들 ...
+    path('', include('django_prometheus.urls')),  # 메트릭 URL
+]

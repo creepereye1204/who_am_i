@@ -77,3 +77,6 @@ volumes:
     external: true
   who-am-i_venv-data:
     external: true
+networks:
+  default:
+    driver: bridge
