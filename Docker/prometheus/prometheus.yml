@@ -2,18 +2,9 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-
   - job_name: 'python'
-    docker_sd_configs:
-      - host: "unix:///var/run/docker.sock"
-    relabel_configs:
-      - source_labels: [__meta_docker_container_label_com_docker_swarm_service_name]
-        action: keep
-        regex: 'python'  # 실제 Python 서비스 이름으로 변경
-      - source_labels: [__meta_docker_container_id]
-        target_label: instance
-        action: replace
-        replacement: ${1}
+    static_configs:
+      - targets: ['python:8000']  # DNS를 통해 접근 가능
 
   - job_name: 'nginx'
     static_configs:
@@ -22,3 +13,4 @@ scrape_configs:
   - job_name: 'grafana'
     static_configs:
       - targets: ['grafana:3000'] # grafana의 서비스 이름과 포트
+

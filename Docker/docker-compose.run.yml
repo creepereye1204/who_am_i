@@ -39,6 +39,8 @@ services:
   prometheus:
     image: who-am-i-prometheus # Prometheus 이미지
     restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Docker 소켓 마운트
 
   grafana:
     image: who-am-i-grafana # Grafana 이미지

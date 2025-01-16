@@ -28,7 +28,7 @@ RUN pip install poetry==1.8.4
 COPY ./app /app
 WORKDIR /app
 RUN poetry config virtualenvs.in-project true
-RUN poetry install --no-interaction --no-ansi && poetry django_prometheus --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi && poetry add django_prometheus --no-interaction --no-ansi
 
 
 # app/frontend 디렉토리로 이동하여 package.json 설치
