@@ -14,41 +14,43 @@ from .utils import SubView
 @api_view(["POST"])
 @transaction.atomic
 def create_project(request, *args, **kwargs):
-    try:
+    print(request)
+    return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
+    # try:
 
-        project_data = {
-            "project_name": request.data.get("projectName"),
-            "end_at": request.data.get("endAt"),
-            "describe": request.data.get("describe"),
-            "link": request.data.get("link"),
-        }
-        if not project_data["project_name"]:
-            return Response({"error": "Project title is required."}, status=status.HTTP_400_BAD_REQUEST)
+    #     project_data = {
+    #         "project_name": request.data.get("projectName"),
+    #         "end_at": request.data.get("endAt"),
+    #         "describe": request.data.get("describe"),
+    #         "link": request.data.get("link"),
+    #     }
+    #     if not project_data["project_name"]:
+    #         return Response({"error": "Project title is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        project = ProjectInfo.objects.create(**project_data)
+    #     project = ProjectInfo.objects.create(**project_data)
 
-        files = request.data.get("files", [])
-        if files:
-            try:
-                SubView.create_readme(files=files, project_id=project.id)
-            except ValidationError as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    #     files = request.data.get("files", [])
+    #     if files:
+    #         try:
+    #             SubView.create_readme(files=files, project_id=project.id)
+    #         except ValidationError as e:
+    #             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        contents = request.data.get("contents", [])
-        SubView.create_contents(contents=contents, project_id=project.id)
+    #     contents = request.data.get("contents", [])
+    #     SubView.create_contents(contents=contents, project_id=project.id)
 
-        skill_names = request.data.get("skill_names", [])
-        try:
-            SubView.create_skill_mappings(project_id=project.id, skill_names=skill_names)
-        except ValidationError as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    #     skill_names = request.data.get("skill_names", [])
+    #     try:
+    #         SubView.create_skill_mappings(project_id=project.id, skill_names=skill_names)
+    #     except ValidationError as e:
+    #         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        cache.set("projects", SubView.list_projects(), timeout=False)
-        return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
+    #     cache.set("projects", SubView.list_projects(), timeout=False)
+    #     return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
 
-    except Exception as e:
+    # except Exception as e:
 
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    #     return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(["POST"])

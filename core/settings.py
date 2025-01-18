@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-import pickle
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 
+# .env 파일에서 값 불러오기
+SECRET_KEY = os.getenv("SECRET_KEY")  # SECRET_KEY를 불러옵니다.
+CLIENT_KEY = os.getenv("CLIENT_KEY")  # SECRET_KEY를 불러옵니다.
+print(SECRET_KEY)  #
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -44,6 +49,17 @@ ALLOWED_HOSTS = ["cjw-portfolio.p-e.kr", "127.0.0.1"]
 
 # Application definition
 
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "api.apps.ApiConfig",
+    "frontend.apps.FrontendConfig",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -51,10 +67,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
-    "api.apps.ApiConfig",
-    "frontend.apps.FrontendConfig",
-]
+] + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -64,6 +77,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 CACHES = {
@@ -119,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
+SITE_ID = 1
 
 LANGUAGE_CODE = "en-us"
 
@@ -138,6 +153,29 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": CLIENT_KEY,
+            "key": SECRET_KEY,
+        }
+    }
+}
+
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "login"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

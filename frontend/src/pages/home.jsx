@@ -66,6 +66,9 @@ import Navbar from "../components/navbar";
 import Projects from "../components/projects";
 import AboutMe from "../components/aboutMe";
 import Skills from "../components/skills";
+
+import ProjectForm from "../components/projectForm";
+
 const Style = styled.div``;
 
 const Home = () => {
@@ -76,6 +79,7 @@ const Home = () => {
       <AboutMe />
       <Skills />
       <Projects />
+      <ProjectForm />
     </Style>
   );
 };
