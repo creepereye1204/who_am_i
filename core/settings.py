@@ -16,7 +16,15 @@ from dotenv import load_dotenv
 import logging
 
 
-# ANSI 색상 코드
+load_dotenv()
+
+SECRET = os.getenv("SECRET_KEY")
+CLIENT_KEY = os.getenv("CLIENT_KEY")
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 class ColoredFormatter(logging.Formatter):
     COLORS = {
         "DEBUG": "\033[94m",  # 파란색
@@ -32,50 +40,27 @@ class ColoredFormatter(logging.Formatter):
         return f"{log_color}{super().format(record)}{self.RESET}"
 
 
-# 로거 설정
-logger = logging.getLogger("myapp")
-logger.setLevel(logging.DEBUG)
-
-# 핸들러 설정
-console_handler = logging.StreamHandler()
-formatter = ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s")
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
-
-load_dotenv()
-
-# .env 파일에서 값 불러오기
-SECRET = os.getenv("SECRET_KEY")  # SECRET_KEY를 불러옵니다.
-CLIENT_KEY = os.getenv("CLIENT_KEY")  # CLIENT_KEY를 불러옵니다.
-
-logger.debug(SECRET)
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# settings.py
-
+# 로깅 설정
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
+        "colored": {
+            "()": ColoredFormatter,  # 컬러 포맷터 사용
+        },
         "verbose": {
             "format": "{levelname} {asctime} {module} {message}",
-            "style": "{",
-        },
-        "simple": {
-            "format": "{levelname} {message}",
             "style": "{",
         },
     },
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
-            "formatter": "simple",
+            "formatter": "colored",  # 컬러 포맷터 사용
         },
         "file": {
             "class": "logging.FileHandler",
-            "filename": "django_debug.log",
+            "filename": os.path.join(BASE_DIR, "django.log"),
             "formatter": "verbose",
         },
     },
@@ -85,9 +70,9 @@ LOGGING = {
             "level": "INFO",
             "propagate": True,
         },
-        "myapp": {  # 특정 애플리케이션 로거
-            "handlers": ["console"],
-            "level": "ERROR",
+        "api": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
             "propagate": False,
         },
     },
@@ -256,5 +241,5 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # settings.py의 마지막 부분에 추가
 
-
-# 예시 함수 호출 (실제 사용 시에는 필요에 따라 호출)
+# settings.py에 어댑터 설정
+SOCIALACCOUNT_ADAPTER = "api.adapters.CustomSocialAccountAdapter"

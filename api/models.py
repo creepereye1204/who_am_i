@@ -13,6 +13,17 @@ def get_file_upload_path(instance, filename):
     return os.path.join(directory, filename)
 
 
+class User(models.Model):
+    user_id = models.TextField(primary_key=True)
+
+    class Meta:
+        verbose_name = "User Set"
+        verbose_name_plural = "User Sets"
+
+    def __str__(self):
+        return self.user_id
+
+
 class SkillSet(models.Model):
     skill_id = models.AutoField(primary_key=True)
     skill_name = models.CharField(max_length=15, unique=True)
