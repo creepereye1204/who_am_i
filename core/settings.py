@@ -13,21 +13,86 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import logging
+
+
+# ANSI 색상 코드
+class ColoredFormatter(logging.Formatter):
+    COLORS = {
+        "DEBUG": "\033[94m",  # 파란색
+        "INFO": "\033[92m",  # 초록색
+        "WARNING": "\033[93m",  # 노란색
+        "ERROR": "\033[91m",  # 빨간색
+        "CRITICAL": "\033[41m",  # 빨간색 배경
+    }
+    RESET = "\033[0m"
+
+    def format(self, record):
+        log_color = self.COLORS.get(record.levelname, self.RESET)
+        return f"{log_color}{super().format(record)}{self.RESET}"
+
+
+# 로거 설정
+logger = logging.getLogger("myapp")
+logger.setLevel(logging.DEBUG)
+
+# 핸들러 설정
+console_handler = logging.StreamHandler()
+formatter = ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s")
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 
 load_dotenv()
 
 # .env 파일에서 값 불러오기
-SECRET_KEY = os.getenv("SECRET_KEY")  # SECRET_KEY를 불러옵니다.
-CLIENT_KEY = os.getenv("CLIENT_KEY")  # SECRET_KEY를 불러옵니다.
-print(SECRET_KEY)  #
+SECRET = os.getenv("SECRET_KEY")  # SECRET_KEY를 불러옵니다.
+CLIENT_KEY = os.getenv("CLIENT_KEY")  # CLIENT_KEY를 불러옵니다.
+
+logger.debug(SECRET)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# try:
-#     with open("./database.pkl", "rb") as pickle_file:
-#         DATABASES = pickle.load(pickle_file)
-#         DEBUG = False
-# except Exception:
+# settings.py
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "django_debug.log",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "myapp": {  # 특정 애플리케이션 로거
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -160,24 +225,36 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
             "client_id": CLIENT_KEY,
-            "key": SECRET_KEY,
-        }
+            "secret": SECRET,
+            "key": "",
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
     }
 }
 
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "/"
-ACCOUNT_LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL = "/api"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# settings.py의 마지막 부분에 추가
+
+
+# 예시 함수 호출 (실제 사용 시에는 필요에 따라 호출)
