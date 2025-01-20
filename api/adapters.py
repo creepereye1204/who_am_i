@@ -39,11 +39,16 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
             logger.warning(f"인증되지 않은 이메일: {e.user_email}")
             return HttpResponse("이메일이 인증되지 않았습니다.", status=403)
 
+        except OperationalError as e:
+            logger.error(f"작업 실패: {e}")
+            return HttpResponse("작업 실패", status=500)
+
         except Exception as e:
             logger.error(f"알 수 없는 오류 발생: {e}")
             return HttpResponse("서버 오류가 발생했습니다.", status=500)
 
-        logger.info(f"{prefix_email} - {user_ip} 로그인 시도")
+        finally:
+            logger.info(f"{prefix_email} - {user_ip} 로그인 시도")
 
         return HttpResponse("로그인 처리 완료", status=200)
 

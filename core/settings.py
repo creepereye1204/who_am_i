@@ -232,7 +232,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "/api"
+LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type

@@ -16,22 +16,11 @@ from django.http import JsonResponse
 from allauth.socialaccount.models import SocialAccount
 
 
-def profile_view(request):
-    if request.user.is_authenticated:
-        # 로그인한 사용자 정보 가져오기
-        user_info = SocialAccount.objects.get(user=request.user, provider="google")
-
-        # JSON 형식으로 사용자 정보 반환
-        return JsonResponse(user_info.extra_data)
-    else:
-        return JsonResponse({"error": "로그인이 필요합니다."}, status=401)  # 로그인 필요시 401 오류 반환
-
-
 # create
 @api_view(["POST"])
 @transaction.atomic
 def create_project(request, *args, **kwargs):
-    print(request)
+
     return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
     # try:
 
