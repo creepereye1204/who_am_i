@@ -232,7 +232,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/profile"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type
@@ -243,4 +243,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # settings.py에 어댑터 설정
 SOCIALACCOUNT_ADAPTER = "api.adapters.CustomSocialAccountAdapter"
-SOCIALACCOUNT_LOGIN_ON_GET = False
+SOCIALACCOUNT_LOGIN_ON_GET = True

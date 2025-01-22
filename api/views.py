@@ -7,56 +7,61 @@ from rest_framework.exceptions import ValidationError
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.db import transaction
-from .utils import SubView
+from .utils import SubView, require_session
 
 
 from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
 from django.http import JsonResponse
-from allauth.socialaccount.models import SocialAccount
+from .exceptions import EmailNotVerifiedException, NoSessionException
 
 
 # create
 @api_view(["POST"])
+@require_session
 @transaction.atomic
 def create_project(request, *args, **kwargs):
+    user_id = request.session.get("user_id")
 
-    return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
-    # try:
+    try:
 
-    #     project_data = {
-    #         "project_name": request.data.get("projectName"),
-    #         "end_at": request.data.get("endAt"),
-    #         "describe": request.data.get("describe"),
-    #         "link": request.data.get("link"),
-    #     }
-    #     if not project_data["project_name"]:
-    #         return Response({"error": "Project title is required."}, status=status.HTTP_400_BAD_REQUEST)
+        project_data = {
+            "project_name": request.data.get("projectName"),
+            "user_id": user_id,
+            "end_at": request.data.get("endAt"),
+            "describe": request.data.get("describe"),
+            "link": request.data.get("link"),
+        }
+        if not project_data["project_name"]:
+            return Response({"error": "Project title is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    #     project = ProjectInfo.objects.create(**project_data)
+        project = ProjectInfo.objects.create(**project_data)
 
-    #     files = request.data.get("files", [])
-    #     if files:
-    #         try:
-    #             SubView.create_readme(files=files, project_id=project.id)
-    #         except ValidationError as e:
-    #             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        files = request.data.get("files", [])
+        if files:
+            try:
+                SubView.create_readme(files=files, project_id=project.id)
+            except ValidationError as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    #     contents = request.data.get("contents", [])
-    #     SubView.create_contents(contents=contents, project_id=project.id)
+        contents = request.data.get("contents", [])
+        SubView.create_contents(contents=contents, project_id=project.id)
 
-    #     skill_names = request.data.get("skill_names", [])
-    #     try:
-    #         SubView.create_skill_mappings(project_id=project.id, skill_names=skill_names)
-    #     except ValidationError as e:
-    #         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        skill_names = request.data.get("skill_names", [])
+        try:
+            SubView.create_skill_mappings(project_id=project.id, skill_names=skill_names)
+        except ValidationError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    #     cache.set("projects", SubView.list_projects(), timeout=False)
-    #     return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
+        cache.set("projects", SubView.list_projects(), timeout=False)
+        return Response({"message": "Project added successfully."}, status=status.HTTP_201_CREATED)
 
-    # except Exception as e:
+    except NoSessionException as e:
+        return Response({"error": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
-    #     return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(["POST"])

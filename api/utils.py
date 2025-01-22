@@ -6,6 +6,30 @@ from django.core.cache import cache
 from functools import wraps
 from enum import Enum
 
+from .exceptions import EmailNotVerifiedException, NoSessionException
+import logging
+from rest_framework.response import Response
+from rest_framework import status
+
+logger = logging.getLogger(__name__)
+
+
+def require_session(view_func):
+    def _wrapped_view(request, *args, **kwargs):
+        user_id = request.session.get("user_id")
+        try:
+            if user_id:
+                return view_func(request, *args, **kwargs)
+            raise NoSessionException
+        except NoSessionException:
+            error_message = "User session is required."
+            logger.error(error_message)
+            return Response({"error": error_message}, status=status.HTTP_401_UNAUTHORIZED)
+        finally:
+            logger.info("User tryed to access contents")
+
+    return _wrapped_view
+
 
 def cache_state(func):
     """

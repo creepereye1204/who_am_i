@@ -39,6 +39,7 @@ class SkillSet(models.Model):
 
 class ProjectInfo(models.Model):
     project_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey("User", related_name="projects", on_delete=models.CASCADE, null=False)
     project_name = models.CharField(max_length=30, null=True, blank=True)
     start_at = models.DateField(default=timezone.now)
     end_at = models.DateField(null=True, blank=True)
