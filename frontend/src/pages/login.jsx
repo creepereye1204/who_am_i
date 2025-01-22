@@ -1,17 +1,15 @@
 import React from "react";
 
 import styled from "styled-components";
-import Navbar from "../components/navbar";
 
-import Login from "../components/login";
+import LoginButton from "../components/loginButton";
 
 const Style = styled.div``;
 
-const Home = () => {
+const Login = () => {
   return (
     <Style>
-      <Navbar />
-      <Login />
+      <LoginButton />
     </Style>
   );
 };

@@ -243,3 +243,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # settings.py에 어댑터 설정
 SOCIALACCOUNT_ADAPTER = "api.adapters.CustomSocialAccountAdapter"
+SOCIALACCOUNT_LOGIN_ON_GET = False
