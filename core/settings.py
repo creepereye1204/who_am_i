@@ -100,6 +100,8 @@ ALLOWED_HOSTS = ["cjw-portfolio.p-e.kr", "127.0.0.1"]
 # Application definition
 
 THIRD_PARTY_APPS = [
+    "web_socket",
+    "channels",
     "rest_framework",
     "api.apps.ApiConfig",
     "frontend.apps.FrontendConfig",
@@ -130,11 +132,13 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-CACHES = {
+CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "unique-snowflake",
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],  # Redis 서버 주소
+        },
+    },
 }
 
 ROOT_URLCONF = "core.urls"
@@ -156,7 +160,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
-
+ASGI_APPLICATION = "core.asgi.application"  # ASGI 애플리케이션 설정
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
